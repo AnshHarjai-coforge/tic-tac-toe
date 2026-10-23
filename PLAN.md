@@ -53,4 +53,6 @@ This is a command-line Tic-Tac-Toe game played on a 3x3 board where the two play
 
 ## What changed
 
-No changes have been made to the original plan yet. This section will be updated if the planned requirements, components, or design decisions change during implementation.
+- `game.py` has a `Player` class (name and mark) and a `GameState` enum. The original component list did not include `Player`.
+- Test coverage is wider than the verification notes. The tests cover the board, full games (wins, draws, bad moves, and games that have already ended), and both AI levels, including a check that Hard never loses as O.
+- Wins are found by walking each row, column, and both diagonals, instead of storing a fixed list of the eight winning lines. `Board` also accepts a size of 3 or larger, though the game itself still plays on 3x3.
