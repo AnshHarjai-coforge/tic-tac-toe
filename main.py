@@ -1,4 +1,7 @@
+import random
+from ai import EasyAI, HardAI
 from game import Game, Player, GameState
+
 
 def check_valid_option(prompt, valid_options):
     """Keep prompting the user to enter a valid option."""
@@ -79,11 +82,43 @@ def play_human_vs_human():
     display_result(new_game)
 
 
+def play_computer_turn(new_game, cpu):
+    """Lets the computer choose a move and places it on the board."""
+    player = new_game.current_player
+    print(f"Hello {player.name} ({player.mark})")
+    print(new_game.board.__str__())
+
+    row, col = cpu.choose_move(new_game.board, player.mark)
+    new_game.make_move(player, row, col)
+    print(f"{player.name} placed a mark at {row+1} {col+1}")
+
+
+def play_human_vs_computer(CPU_difficulty):
+    """Runs a human-vs-computer game."""
+    player_1 = Player('player 1', 'X')
+    player_2 = Player('computer', 'O')
+    new_game = Game(player_1, player_2)
+
+    if CPU_difficulty == 1:
+        cpu = EasyAI(random.Random())
+    else:
+        cpu = HardAI(random.Random())
+
+    while new_game.state == GameState.IN_PROGRESS:
+        if new_game.current_player is player_1:
+            play_turn(new_game)
+        else:
+            play_computer_turn(new_game, cpu)
+
+    display_result(new_game)
+
+
 def main():
     game_mode = choose_game_mode()
     
     if game_mode == 2:
         CPU_difficulty = choose_CPU_difficulty()
+        play_human_vs_computer(CPU_difficulty)
 
     else:
         play_human_vs_human()
